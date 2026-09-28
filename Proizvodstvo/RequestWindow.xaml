@@ -1,0 +1,51 @@
+﻿<Window x:Class="Proizvodstvo.RequestWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Форма заявки" Height="650" Width="550" WindowStartupLocation="CenterScreen" Background="{StaticResource SecondBg}" Icon="C:\Users\Пользователь\Desktop\proga\new_tecnology.ico">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Данные партнера -->
+        <StackPanel Grid.Row="0">
+            <TextBlock Text="Тип партнера:"/>
+            <ComboBox x:Name="CmbType" DisplayMemberPath="name" SelectedValuePath="id" Margin="0,0,0,10"/>
+            <TextBlock Text="Наименование партнера:"/>
+            <TextBox x:Name="TxtName" Margin="0,0,0,10"/>
+            <TextBlock Text="ФИО директора (через пробел):"/>
+            <TextBox x:Name="TxtDirector" Margin="0,0,0,10"/>
+            <TextBlock Text="Телефон(формат: XXXXXXXXXX):"/>
+            <TextBox x:Name="TxtPhone" Margin="0,0,0,10"/>
+            <TextBlock Text="Рейтинг:"/>
+            <TextBox x:Name="TxtRating" Margin="0,0,0,10"/>
+
+            <TextBlock Text="Управление продукцией:" FontWeight="Bold" Margin="0,10,0,5"/>
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                <TextBlock Text="Товар (ID):" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                <ComboBox x:Name="CmbProducts" DisplayMemberPath="id" SelectedValuePath="id" Width="100" Margin="0,0,15,0"/>
+                <TextBlock Text="Кол-во:" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                <TextBox x:Name="TxtQuantity" Width="50" Text="1" VerticalAlignment="Center" Margin="0,0,15,0"/>
+                <Button Content="Добавить в заявку" Click="BtnAddProduct_Click"/>
+            </StackPanel>
+        </StackPanel>
+
+        <!-- Таблица. Редактирование разрешено (IsReadOnly="False"), чтобы пользователь мог менять количество прямо в ячейке -->
+        <DataGrid x:Name="ProductsGrid" Grid.Row="1" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="False" Margin="0,0,0,15" Background="White">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID Товара" Binding="{Binding ProductId, Mode=OneWay}" IsReadOnly="True" Width="100"/>
+                <!-- Поле количества доступно для редактирования -->
+                <DataGridTextColumn Header="Кол-во" Binding="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}" Width="80"/>
+                <DataGridTextColumn Header="Мин. цена" Binding="{Binding MinPrice, StringFormat=\{0:F2\}, Mode=OneWay}" IsReadOnly="True" Width="100"/>
+                <DataGridTextColumn Header="Итого" Binding="{Binding TotalCost, StringFormat=\{0:F2\}, Mode=OneWay}" IsReadOnly="True" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="Отмена" Click="BtnBack_Click" Margin="0,0,10,0" Background="#888888"/>
+            <Button Content="Сохранить" Click="BtnSave_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>
